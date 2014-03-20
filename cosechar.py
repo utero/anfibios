@@ -8,14 +8,16 @@ import sys
 
 
 def print_result(parsed_data, especie):
+    import re
     out = ""
     for i in parsed_data:
         out += especie + ","
         out += str(i['taxon_id']) + ","
         out += str(i['observation_id']) + ","
         out += str(i['latitude']) + ","
-        out += str(i['longitude']) + ","
-    return parsed_data
+        out += str(i['longitude']) + "\n"
+    out = re.sub("\n$","",out)
+    return out
 
 def parse_result(text):
     import json
@@ -48,7 +50,7 @@ def get(especie):
     if parsed_data:
         print print_result(parsed_data, especie)
     else:
-        print "aaaaaaaaA"
+        print "%s, No se encontraron datos para la especie" % especie
 
 
 def request(filename):
@@ -64,9 +66,8 @@ def request(filename):
                 continue
 
             ########borrar ###########
-            especie = "Leptodactylus bolivianus"
+            #especie = "Leptodactylus bolivianus"
             get(especie)
-            sys.exit()
     else:
         print "No se pudo encontrar ese archivo"
         print "Nada por hacer"
