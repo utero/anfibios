@@ -7,16 +7,32 @@ import codecs
 import sys
 
 
+def print_result(parsed_data, especie):
+    out = ""
+    for i in parsed_data:
+        out += especie + ","
+        out += str(i['taxon_id']) + ","
+        out += str(i['observation_id']) + ","
+        out += str(i['latitude']) + ","
+        out += str(i['longitude']) + ","
+    return parsed_data
+
 def parse_result(text):
     import json
     if len(text) > 0:
         text = json.loads(text)
 
+        data = []
         for i in text:
             obj = {}
             obj['taxon_id'] = i['taxon_id']
-        print obj 
-    return obj
+            obj['observation_id'] = i['id']
+            obj['latitude'] = i['latitude']
+            obj['longitude'] = i['longitude']
+            data.append(obj)
+        return data
+    else:
+        return False
 
 def get(especie):
     import re
@@ -27,7 +43,12 @@ def get(especie):
     payload = {'taxon_name': especie}
 
     r = requests.get(url, params=payload)
-    return parse_result(r.text)
+
+    parsed_data = parse_result(r.text)
+    if parsed_data:
+        print print_result(parsed_data, especie)
+    else:
+        print "aaaaaaaaA"
 
 
 def request(filename):
@@ -42,7 +63,9 @@ def request(filename):
             if especie == "Especie":
                 continue
 
-            print get(especie)
+            ########borrar ###########
+            especie = "Leptodactylus bolivianus"
+            get(especie)
             sys.exit()
     else:
         print "No se pudo encontrar ese archivo"
