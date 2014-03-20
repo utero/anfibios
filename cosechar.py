@@ -7,6 +7,29 @@ import codecs
 import sys
 
 
+def parse_result(text):
+    import json
+    if len(text) > 0:
+        text = json.loads(text)
+
+        for i in text:
+            obj = {}
+            obj['taxon_id'] = i['taxon_id']
+        print obj 
+    return obj
+
+def get(especie):
+    import re
+    import requests
+
+    especie = re.sub("\s+", " ", especie)
+    url = "http://www.inaturalist.org/observations.json"
+    payload = {'taxon_name': especie}
+
+    r = requests.get(url, params=payload)
+    return parse_result(r.text)
+
+
 def request(filename):
     import os.path
     if os.path.isfile(filename):
@@ -19,7 +42,8 @@ def request(filename):
             if especie == "Especie":
                 continue
 
-            print especie
+            print get(especie)
+            sys.exit()
     else:
         print "No se pudo encontrar ese archivo"
         print "Nada por hacer"
