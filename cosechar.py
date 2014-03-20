@@ -67,7 +67,12 @@ def request(filename):
 
             ########borrar ###########
             #especie = "Leptodactylus bolivianus"
+
+            # imprimir encabezados
+            out = 'especie,taxon_id,observation_id,latitude,longitude'
+            print out
             get(especie)
+
     else:
         print "No se pudo encontrar ese archivo"
         print "Nada por hacer"
