@@ -56,6 +56,9 @@ def get(especie):
 def request(filename):
     import os.path
     if os.path.isfile(filename):
+        # imprimir encabezados
+        print 'especie,taxon_id,observation_id,latitude,longitude'
+
         f = codecs.open(filename, "r", "utf8")
         lines = f.readlines()
         f.close()
@@ -68,9 +71,6 @@ def request(filename):
             ########borrar ###########
             #especie = "Leptodactylus bolivianus"
 
-            # imprimir encabezados
-            out = 'especie,taxon_id,observation_id,latitude,longitude'
-            print out
             get(especie)
 
     else:
