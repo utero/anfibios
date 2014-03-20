@@ -3,13 +3,23 @@
 
 import argparse
 from argparse import RawTextHelpFormatter
+import codecs
 import sys
 
 
-def scrape(filename):
+def request(filename):
     import os.path
     if os.path.isfile(filename):
-        print "good"
+        f = codecs.open(filename, "r", "utf8")
+        lines = f.readlines()
+        f.close()
+        for i in lines:
+            i = i.strip().split(",")
+            especie = i[0]
+            if especie == "Especie":
+                continue
+
+            print especie
     else:
         print "No se pudo encontrar ese archivo"
         print "Nada por hacer"
@@ -28,7 +38,7 @@ def main():
     args = parser.parse_args()
     filename = args.filename.strip()
 
-    scrape(filename)
+    request(filename)
 
 
 if __name__ == "__main__":
